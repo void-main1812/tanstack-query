@@ -1,19 +1,25 @@
-import { Stack, Link } from 'expo-router';
+import { useQuery } from '@tanstack/react-query';
+import { Stack } from 'expo-router';
+import { useEffect } from 'react';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import { getTodos } from '~/api/todos';
 
-import { Button } from '~/components/Button';
-import { Container } from '~/components/Container';
-import { ScreenContent } from '~/components/ScreenContent';
 
 export default function Home() {
+
+  const todosQuery = useQuery({
+    queryKey: ['todos'],
+    queryFn: getTodos,
+  })
+
   return (
     <>
-      <Stack.Screen options={{ title: 'Home' }} />
-      <Container>
-        <ScreenContent path="app/index.tsx" title="Home" />
-        <Link href={{ pathname: '/details', params: { name: 'Dan' } }} asChild>
-          <Button title="Show Details" />
-        </Link>
-      </Container>
+      <Stack.Screen options={{ title: 'To-dos' }} />
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 20}} >
+        {todosQuery.isLoading ? <ActivityIndicator size="large" color="#000" /> : null}
+        {todosQuery.isError ? <Text>Couldn't load todos</Text> : null}
+        <FlatList data={todosQuery.data} keyExtractor={item => item.id} renderItem={({item}) => <Text>{item.id}. {item.task}</Text>} />
+      </View>
     </>
   );
 }

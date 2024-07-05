@@ -3,6 +3,7 @@
     "name": "tanstack-query",
     "slug": "tanstack-query",
     "version": "1.0.0",
+    "jsEngine": "hermes",
 
     "scheme": "tanstack-query",
     "web": {
