@@ -1,5 +1,3 @@
 {
-  "todos": [
-    { "id": "1", "task": "first to-do", "done": false }
-  ]
+  "todos": []
 }
